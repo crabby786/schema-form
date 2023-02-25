@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import TutorialDataService from "../services/TutorialService";
+import FormField from "../components/FormField";
 
 
 
@@ -8,12 +9,14 @@ import TutorialDataService from "../services/TutorialService";
 const AddTutorial = (props) => {
   const { schema } = props
 
-  const initialTutorialState = {
-    id: null,
-    title: "",
-    description: "",
-    published: false
-  };
+  const initialTutorialState = {}
+  
+
+  for (const key in schema?.properties) {
+    initialTutorialState[key] = schema?.properties?.[key]?.default || ""
+  }
+  console.log('initialTutorialState', initialTutorialState);
+
   const [tutorial, setTutorial] = useState(initialTutorialState);
   const [submitted, setSubmitted] = useState(false);
 
@@ -62,7 +65,10 @@ const AddTutorial = (props) => {
         </div>
       ) : (
         <div>
-          {fields?.length ? fields?.map((obj, i)=>  <FormField key = {i} /> ) : <p> invalid scheam provided </p>}
+          {fields?.length ? fields?.map((item, i)=>  {
+            let fieldObj = schema?.properties[item]
+            return <FormField key = {i} value={initialTutorialState[item]} handleInputChange={handleInputChange} fieldObj = {fieldObj} />
+          } ) : <p> invalid scheam provided </p>}
           
 
           {/* <div className="form-group">

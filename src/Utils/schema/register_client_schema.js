@@ -3,6 +3,7 @@ export const inputTypes = {
     radio:  "radio",
     datepicker:  "date",
     textArea:  "textArea",
+    dropdown:  "dropdown",
     checkbox:  "checkbox",
 }
 
