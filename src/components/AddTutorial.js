@@ -1,7 +1,13 @@
 import React, { useState } from "react";
 import TutorialDataService from "../services/TutorialService";
 
-const AddTutorial = () => {
+
+
+
+
+const AddTutorial = (props) => {
+  const { schema } = props
+
   const initialTutorialState = {
     id: null,
     title: "",
@@ -42,7 +48,9 @@ const AddTutorial = () => {
     setTutorial(initialTutorialState);
     setSubmitted(false);
   };
+  let fields = Object.keys(schema?.properties)
 
+  //  console.log("fields", fields);
   return (
     <div className="submit-form">
       {submitted ? (
@@ -54,20 +62,10 @@ const AddTutorial = () => {
         </div>
       ) : (
         <div>
-          <div className="form-group">
-            <label htmlFor="title">Title</label>
-            <input
-              type="text"
-              className="form-control"
-              id="title"
-              required
-              value={tutorial.title}
-              onChange={handleInputChange}
-              name="title"
-            />
-          </div>
+          {fields?.length ? fields?.map((obj, i)=>  <FormField key = {i} /> ) : <p> invalid scheam provided </p>}
+          
 
-          <div className="form-group">
+          {/* <div className="form-group">
             <label htmlFor="description">Description</label>
             <input
               type="text"
@@ -78,7 +76,7 @@ const AddTutorial = () => {
               onChange={handleInputChange}
               name="description"
             />
-          </div>
+          </div> */}
 
           <button onClick={saveTutorial} className="btn btn-success">
             Submit

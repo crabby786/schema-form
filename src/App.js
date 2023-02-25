@@ -8,6 +8,7 @@ import "./App.css";
 import AddTutorial from "./components/AddTutorial";
 import Tutorial from "./components/Tutorial";
 import TutorialsList from "./components/TutorialsList";
+import {registerSchema} from "./Utils/schema/register_client_schema";
 
 function App() {
   return (
@@ -33,7 +34,7 @@ function App() {
       <div className="container mt-3">
         <Switch>
           <Route exact path={["/", "/tutorials"]} component={TutorialsList} />
-          <Route exact path="/add" component={AddTutorial} />
+          <Route exact path="/add" render={(prop)=> <AddTutorial {...prop} schema = {registerSchema}   />} />
           <Route path="/tutorials/:id" component={Tutorial} />
         </Switch>
       </div>
