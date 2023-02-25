@@ -9,6 +9,8 @@ import AddTutorial from "./components/AddTutorial";
 import Tutorial from "./components/Tutorial";
 import TutorialsList from "./components/TutorialsList";
 import {registerSchema} from "./Utils/schema/register_client_schema";
+// import Client from "./components/Client";
+// import ClientList from "./components/ClientList";
 
 function App() {
   return (
@@ -33,9 +35,9 @@ function App() {
 
       <div className="container mt-3">
         <Switch>
-          <Route exact path={["/", "/tutorials"]} component={TutorialsList} />
-          <Route exact path="/add" render={(prop)=> <AddTutorial {...prop} schema = {registerSchema}   />} />
-          <Route path="/tutorials/:id" component={Tutorial} />
+          <Route exact path={["/", "/tutorials"]} component={ClientList} />
+          <Route exact path="/add" render={(prop)=> <AddTutorial {...prop} schema = {registerSchema}  /> } />
+          <Route path="/tutorials/:id" component={Client} />
         </Switch>
       </div>
     </div>
