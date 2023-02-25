@@ -39,6 +39,12 @@ const AddTutorial = (props) => {
     if(validations?.required) {
       value ? errorMsg = "" : errorMsg = "This field is required"
     }
+    if(validations?.minLength) {
+      value?.length < validations?.minLength ? errorMsg = `Minimum ${validations?.minLength} characters required ` : errorMsg = ""
+    }
+    if(validations?.maxLength) {
+      value?.length > validations?.maxLength ? errorMsg = `Maximum ${validations?.maxLength} characters accepted ` : errorMsg = ""
+    }
      setErrors({...errors, [name]:errorMsg})
     
   };

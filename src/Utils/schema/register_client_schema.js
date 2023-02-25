@@ -56,8 +56,12 @@ export const registerSchema = {
         "name": "mobile",
         "inputType": inputTypes.textfield,
         "title": "Mobile",
+        "inputProps" : {
+          type:"number",  
+        },      
         validations : {
-          "minLength": 10
+          "minLength": 10,
+          "maxLength": 10,
         }
       },
       "email": {
