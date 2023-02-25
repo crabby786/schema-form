@@ -27,9 +27,10 @@ const AddTutorial = (props) => {
 
   const saveTutorial = () => {
     var data = {
-      title: tutorial.title,
-      description: tutorial.description
+      ...tutorial
     };
+    console.log("data", data);
+    // return
 
     TutorialDataService.create(data)
       .then(response => {
@@ -67,7 +68,7 @@ const AddTutorial = (props) => {
         <div>
           {fields?.length ? fields?.map((item, i)=>  {
             let fieldObj = schema?.properties[item]
-            return <FormField key = {i} value={initialTutorialState[item]} handleInputChange={handleInputChange} fieldObj = {fieldObj} />
+            return <FormField key = {i} value={tutorial[item]} name = {item} handleInputChange={handleInputChange} fieldObj = {fieldObj} />
           } ) : <p> invalid scheam provided </p>}
           
 
