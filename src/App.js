@@ -6,8 +6,8 @@ import "@fortawesome/fontawesome-free/js/all.js";
 import "./App.css";
 
 import AddTutorial from "./components/AddTutorial";
-import Tutorial from "./components/Tutorial";
-import TutorialsList from "./components/TutorialsList";
+import Client from "./components/Client";
+import ClientList from "./components/ClientList";
 
 function App() {
   return (
@@ -32,9 +32,9 @@ function App() {
 
       <div className="container mt-3">
         <Switch>
-          <Route exact path={["/", "/tutorials"]} component={TutorialsList} />
+          <Route exact path={["/", "/tutorials"]} component={ClientList} />
           <Route exact path="/add" component={AddTutorial} />
-          <Route path="/tutorials/:id" component={Tutorial} />
+          <Route path="/tutorials/:id" component={Client} />
         </Switch>
       </div>
     </div>

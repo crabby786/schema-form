@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import TutorialDataService from "../services/TutorialService";
+import ClientDataService from "../services/ClientService";
 
 const Tutorial = props => {
   const initialTutorialState = {
@@ -12,7 +12,7 @@ const Tutorial = props => {
   const [message, setMessage] = useState("");
 
   const getTutorial = id => {
-    TutorialDataService.get(id)
+    ClientDataService.get(id)
       .then(response => {
         setCurrentTutorial(response.data);
         console.log(response.data);
@@ -39,7 +39,7 @@ const Tutorial = props => {
       published: status
     };
 
-    TutorialDataService.update(currentTutorial.id, data)
+    ClientDataService.update(currentTutorial.id, data)
       .then(response => {
         setCurrentTutorial({ ...currentTutorial, published: status });
         console.log(response.data);
@@ -51,7 +51,7 @@ const Tutorial = props => {
   };
 
   const updateTutorial = () => {
-    TutorialDataService.update(currentTutorial.id, currentTutorial)
+    ClientDataService.update(currentTutorial.id, currentTutorial)
       .then(response => {
         console.log(response.data);
         setMessage("The tutorial was updated successfully!");
@@ -62,7 +62,7 @@ const Tutorial = props => {
   };
 
   const deleteTutorial = () => {
-    TutorialDataService.remove(currentTutorial.id)
+    ClientDataService.remove(currentTutorial.id)
       .then(response => {
         console.log(response.data);
         props.history.push("/tutorials");

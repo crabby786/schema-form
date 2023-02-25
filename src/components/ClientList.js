@@ -1,16 +1,17 @@
 import React, { useState, useEffect, useMemo, useRef } from "react";
-import TutorialDataService from "../services/TutorialService";
+import ClientDataService from "../services/ClientService";
 import { useTable } from "react-table";
+import moment from "moment";
 
 const TutorialsList = (props) => {
-  const [tutorials, setTutorials] = useState([]);
+  const [clientList, setClientList] = useState([]);
   const [searchTitle, setSearchTitle] = useState("");
   const tutorialsRef = useRef();
 
-  tutorialsRef.current = tutorials;
-
+  tutorialsRef.current = clientList;
+  console.log(clientList, 'clientList')
   useEffect(() => {
-    retrieveTutorials();
+    getclientList();
   }, []);
 
   const onChangeSearchTitle = (e) => {
@@ -18,10 +19,11 @@ const TutorialsList = (props) => {
     setSearchTitle(searchTitle);
   };
 
-  const retrieveTutorials = () => {
-    TutorialDataService.getAll()
+  const getclientList = () => {
+    ClientDataService.getAll()
       .then((response) => {
-        setTutorials(response.data);
+        console.log(response.data, 'response')
+        setClientList(response.data.data);
       })
       .catch((e) => {
         console.log(e);
@@ -29,11 +31,11 @@ const TutorialsList = (props) => {
   };
 
   const refreshList = () => {
-    retrieveTutorials();
+    getclientList();
   };
 
   const removeAllTutorials = () => {
-    TutorialDataService.removeAll()
+    ClientDataService.removeAll()
       .then((response) => {
         console.log(response.data);
         refreshList();
@@ -44,32 +46,34 @@ const TutorialsList = (props) => {
   };
 
   const findByTitle = () => {
-    TutorialDataService.findByTitle(searchTitle)
+    ClientDataService.findByTitle(searchTitle)
       .then((response) => {
-        setTutorials(response.data);
+        setClientList(response.data);
       })
       .catch((e) => {
         console.log(e);
       });
   };
 
-  const openTutorial = (rowIndex) => {
-    const id = tutorialsRef.current[rowIndex].id;
+  const editClient = (rowIndex) => {
+    const id = tutorialsRef.current[rowIndex]._id;
 
-    props.history.push("/tutorials/" + id);
+    props.history.push("/clientList/" + id);
   };
 
-  const deleteTutorial = (rowIndex) => {
-    const id = tutorialsRef.current[rowIndex].id;
-
-    TutorialDataService.remove(id)
+  const deleteClient = (rowIndex) => {
+    const id = tutorialsRef.current[rowIndex]._id;
+    console.log(tutorialsRef.current[rowIndex], id, 'id')
+    ClientDataService.remove(id)
       .then((response) => {
-        props.history.push("/tutorials");
+        refreshList();
+        // setClientList(response.data);
+        // props.history.push("/clientList");
 
-        let newTutorials = [...tutorialsRef.current];
-        newTutorials.splice(rowIndex, 1);
-
-        setTutorials(newTutorials);
+        // let newTutorials = [...tutorialsRef.current];
+        // newTutorials.splice(rowIndex, 1);
+// 
+        // setClientList(newTutorials);
       })
       .catch((e) => {
         console.log(e);
@@ -79,18 +83,26 @@ const TutorialsList = (props) => {
   const columns = useMemo(
     () => [
       {
-        Header: "Title",
-        accessor: "title",
+        Header: "Full Name",
+        accessor: "fullName",
       },
       {
-        Header: "Description",
-        accessor: "description",
+        Header: "Gender",
+        accessor: "gender",
       },
       {
-        Header: "Status",
-        accessor: "published",
+        Header: "Mobile number",
+        accessor: "mobile",
+      },
+      {
+        Header: "Email Id",
+        accessor: "email",
+      },
+      {
+        Header: "DOB",
+        accessor: "dob",
         Cell: (props) => {
-          return props.value ? "Published" : "Pending";
+          return moment(props.value).format('DD/MM/YYYY');
         },
       },
       {
@@ -100,11 +112,11 @@ const TutorialsList = (props) => {
           const rowIdx = props.row.id;
           return (
             <div>
-              <span onClick={() => openTutorial(rowIdx)}>
+              <span onClick={() => editClient(rowIdx)}>
                 <i className="far fa-edit action mr-2"></i>
               </span>
 
-              <span onClick={() => deleteTutorial(rowIdx)}>
+              <span onClick={() => deleteClient(rowIdx)}>
                 <i className="fas fa-trash action"></i>
               </span>
             </div>
@@ -123,7 +135,7 @@ const TutorialsList = (props) => {
     prepareRow,
   } = useTable({
     columns,
-    data: tutorials,
+    data: clientList,
   });
 
   return (

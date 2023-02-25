@@ -1,15 +1,15 @@
 import http from "../http-common";
 
 const getAll = () => {
-  return http.get("/tutorials");
+  return http.get("/");
 };
 
 const get = (id) => {
-  return http.get(`/tutorials/${id}`);
+  return http.get(`/${id}`);
 };
 
 const create = (data) => {
-  return http.post("/tutorials", data);
+  return http.post("/create", data);
 };
 
 const update = (id, data) => {
@@ -17,7 +17,7 @@ const update = (id, data) => {
 };
 
 const remove = (id) => {
-  return http.delete(`/tutorials/${id}`);
+  return http.delete(`/delete/${id}`);
 };
 
 const removeAll = () => {
@@ -28,7 +28,7 @@ const findByTitle = (title) => {
   return http.get(`/tutorials?title=${title}`);
 };
 
-const TutorialService = {
+const ClientService = {
   getAll,
   get,
   create,
@@ -38,4 +38,4 @@ const TutorialService = {
   findByTitle,
 };
 
-export default TutorialService;
+export default ClientService;
