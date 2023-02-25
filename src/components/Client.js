@@ -8,13 +8,13 @@ const Tutorial = props => {
     description: "",
     published: false
   };
-  const [currentTutorial, setCurrentTutorial] = useState(initialTutorialState);
+  const [currentClient, setCurrentClient] = useState(initialTutorialState);
   const [message, setMessage] = useState("");
 
-  const getTutorial = id => {
+  const getClient = id => {
     ClientDataService.get(id)
       .then(response => {
-        setCurrentTutorial(response.data);
+        setCurrentClient(response.data.data);
         console.log(response.data);
       })
       .catch(e => {
@@ -23,25 +23,25 @@ const Tutorial = props => {
   };
 
   useEffect(() => {
-    getTutorial(props.match.params.id);
+    getClient(props.match.params.id);
   }, [props.match.params.id]);
 
   const handleInputChange = event => {
     const { name, value } = event.target;
-    setCurrentTutorial({ ...currentTutorial, [name]: value });
+    setCurrentClient({ ...currentClient, [name]: value });
   };
 
   const updatePublished = status => {
     var data = {
-      id: currentTutorial.id,
-      title: currentTutorial.title,
-      description: currentTutorial.description,
+      id: currentClient.id,
+      title: currentClient.title,
+      description: currentClient.description,
       published: status
     };
 
-    ClientDataService.update(currentTutorial.id, data)
+    ClientDataService.update(currentClient.id, data)
       .then(response => {
-        setCurrentTutorial({ ...currentTutorial, published: status });
+        setCurrentClient({ ...currentClient, published: status });
         console.log(response.data);
         setMessage("The status was updated successfully!");
       })
@@ -51,10 +51,10 @@ const Tutorial = props => {
   };
 
   const updateTutorial = () => {
-    ClientDataService.update(currentTutorial.id, currentTutorial)
+    ClientDataService.update(currentClient.id, currentClient)
       .then(response => {
         console.log(response.data);
-        setMessage("The tutorial was updated successfully!");
+        setMessage("The client was updated successfully!");
       })
       .catch(e => {
         console.log(e);
@@ -62,7 +62,7 @@ const Tutorial = props => {
   };
 
   const deleteTutorial = () => {
-    ClientDataService.remove(currentTutorial.id)
+    ClientDataService.remove(currentClient.id)
       .then(response => {
         console.log(response.data);
         props.history.push("/tutorials");
@@ -74,7 +74,7 @@ const Tutorial = props => {
 
   return (
     <div>
-      {currentTutorial ? (
+      {currentClient ? (
         <div className="edit-form">
           <h4>Tutorial</h4>
           <form>
@@ -85,7 +85,7 @@ const Tutorial = props => {
                 className="form-control"
                 id="title"
                 name="title"
-                value={currentTutorial.title}
+                value={currentClient.title}
                 onChange={handleInputChange}
               />
             </div>
@@ -96,35 +96,11 @@ const Tutorial = props => {
                 className="form-control"
                 id="description"
                 name="description"
-                value={currentTutorial.description}
+                value={currentClient.description}
                 onChange={handleInputChange}
               />
             </div>
-
-            <div className="form-group">
-              <label>
-                <strong>Status:</strong>
-              </label>
-              {currentTutorial.published ? "Published" : "Pending"}
-            </div>
           </form>
-
-          {currentTutorial.published ? (
-            <button
-              className="badge badge-primary mr-2"
-              onClick={() => updatePublished(false)}
-            >
-              UnPublish
-            </button>
-          ) : (
-            <button
-              className="badge badge-primary mr-2"
-              onClick={() => updatePublished(true)}
-            >
-              Publish
-            </button>
-          )}
-
           <button className="badge badge-danger mr-2" onClick={deleteTutorial}>
             Delete
           </button>
@@ -141,7 +117,7 @@ const Tutorial = props => {
       ) : (
         <div>
           <br />
-          <p>Please click on a Tutorial...</p>
+          <p>Please click on a Client...</p>
         </div>
       )}
     </div>
