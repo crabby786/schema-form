@@ -17,17 +17,17 @@ const AddTutorial = (props) => {
   }
   console.log('initialTutorialState', initialTutorialState);
 
-  const [tutorial, setTutorial] = useState(initialTutorialState);
+  const [formState, setTutorial] = useState(initialTutorialState);
   const [submitted, setSubmitted] = useState(false);
 
   const handleInputChange = event => {
     const { name, value } = event.target;
-    setTutorial({ ...tutorial, [name]: value });
+    setTutorial({ ...formState, [name]: value });
   };
 
   const saveTutorial = () => {
     var data = {
-      ...tutorial
+      ...formState
     };
     console.log("data", data);
     // return
@@ -68,7 +68,11 @@ const AddTutorial = (props) => {
         <div>
           {fields?.length ? fields?.map((item, i)=>  {
             let fieldObj = schema?.properties[item]
-            return <FormField key = {i} value={tutorial[item]} name = {item} handleInputChange={handleInputChange} fieldObj = {fieldObj} />
+            return <FormField key = {i} 
+            value={formState[fieldObj?.name]} 
+            handleInputChange={handleInputChange} 
+            fieldObj = {fieldObj} 
+            />
           } ) : <p> invalid scheam provided </p>}
           
 
