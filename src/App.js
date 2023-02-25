@@ -6,11 +6,9 @@ import "@fortawesome/fontawesome-free/js/all.js";
 import "./App.css";
 
 import AddTutorial from "./components/AddTutorial";
-import Tutorial from "./components/Tutorial";
-import TutorialsList from "./components/TutorialsList";
 import {registerSchema} from "./Utils/schema/register_client_schema";
-// import Client from "./components/Client";
-// import ClientList from "./components/ClientList";
+import Client from "./components/Client";
+import ClientList from "./components/ClientList";
 
 function App() {
   return (
