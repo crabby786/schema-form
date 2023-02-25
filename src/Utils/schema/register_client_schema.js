@@ -3,7 +3,7 @@ export const inputTypes = {
     radio:  "radio",
     datepicker:  "date",
     textArea:  "textArea",
-    dropdown:  "dropdown",
+    dropdown:  "select",
     checkbox:  "checkbox",
 }
 
@@ -35,14 +35,6 @@ export const registerSchema = {
           // match : regex
         }
       },
-      // "dob": {
-      //   "name": "dob",
-      //   "inputType": inputTypes.datepicker,
-      //   "title": "Date of Birth",
-      //   validations : {
-      //       // "max": new Date(),
-      //   }
-      // },
       "gender": {
         "name": "gender",
         "inputType": inputTypes.radio,
@@ -71,6 +63,20 @@ export const registerSchema = {
         validations : {
           "match": /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i
         }
-      }
+      },
+      "plans": {
+        "inputType": inputTypes.dropdown,
+        "title": "Select Plans",
+        "name": "plans",
+        "default": "",
+        options:[
+          {label:"plan A", value:"plan A"},
+          {label:"plan B", value:"plan B"},
+          {label:"plan C", value:"plan C"},
+        ],
+        validations : {
+            "required":true
+        }
+      },
     }
   }

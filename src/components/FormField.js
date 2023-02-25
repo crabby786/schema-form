@@ -53,7 +53,23 @@ export default function FormField(props) {
        )
     :inputType == inputTypes.checkbox ? <p>use checkbox</p>
     :inputType == inputTypes.textArea ? <p>use textArea</p>
-    :inputType == inputTypes.dropdown ? <p>use dropdown</p>
+    :inputType == inputTypes.dropdown ? (
+      <div className="form-group">
+        <label >{fieldObj?.title || ""}</label>
+        <select type={fieldObj?.inputProps?.type || "text"}
+          className="form-control"
+          // id="title" 
+          required
+          value={value}
+          onChange={(e) => handleInputChange(e)}
+          name={fieldObj?.name}
+  
+        >
+        {fieldObj?.options?.length ? (
+          fieldObj?.options?.map((obj, i)=> <option key = {i} value = {obj?.value}> {obj?.label} </option> )
+        ) : null }
+        </select>
+      </div> )
     : "invalid input type"}
     {errorMsg && <span className='small text-danger' > {errorMsg} </span>}
   </React.Fragment>
