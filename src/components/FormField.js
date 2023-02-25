@@ -16,7 +16,7 @@ export default function FormField(props) {
     // id="title" 
     required
       value={value}
-      onChange={handleInputChange}
+      onChange={(e)=> handleInputChange(e) }
       name={fieldObj?.name}
 
     />

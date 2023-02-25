@@ -19,10 +19,15 @@ const AddTutorial = (props) => {
 
   const [formState, setTutorial] = useState(initialTutorialState);
   const [submitted, setSubmitted] = useState(false);
+  const [errors, setErrors] = useState({});
 
   const handleInputChange = event => {
     const { name, value } = event.target;
     setTutorial({ ...formState, [name]: value });
+  };
+  const handleValidation = (fieldObj) => {
+    let newErrors = {...errors}
+    
   };
 
   const saveTutorial = () => {
@@ -30,7 +35,6 @@ const AddTutorial = (props) => {
       ...formState
     };
     console.log("data", data);
-    // return
 
     TutorialDataService.create(data)
       .then(response => {
@@ -72,6 +76,7 @@ const AddTutorial = (props) => {
             value={formState[fieldObj?.name]} 
             handleInputChange={handleInputChange} 
             fieldObj = {fieldObj} 
+            errorMsg = {errors[item]  }
             />
           } ) : <p> invalid scheam provided </p>}
           
