@@ -11,7 +11,7 @@ const AddClient = (props) => {
   for (const key in schema?.properties) {
     initialTutorialState[key] = schema?.properties?.[key]?.default || ""
   }
-  console.log('initialTutorialState', initialTutorialState);
+  // console.log('initialTutorialState', initialTutorialState);
 
   const [formState, setTutorial] = useState(initialTutorialState);
   const [submitted, setSubmitted] = useState(false);
@@ -19,10 +19,28 @@ const AddClient = (props) => {
 
   const handleInputChange = event => {
     const { name, value } = event.target;
+
     setTutorial({ ...formState, [name]: value });
+
+    handleValidation(schema?.properties[name], value)
   };
-  const handleValidation = (fieldObj) => {
-    let newErrors = {...errors}
+  const handleValidation = (fieldObj, value) => {
+    let {name, validations} = fieldObj
+    let errorMsg = ""
+    if(validations?.match) {
+      let isMatch = validations?.match?.test(value)
+      isMatch ? errorMsg = "" : errorMsg = "Email is not valid"
+    }
+    if(validations?.required) {
+      value ? errorMsg = "" : errorMsg = "This field is required"
+    }
+    if(validations?.minLength) {
+      value?.length < validations?.minLength ? errorMsg = `Minimum ${validations?.minLength} characters required ` : errorMsg = ""
+    }
+    if(validations?.maxLength) {
+      value?.length > validations?.maxLength ? errorMsg = `Maximum ${validations?.maxLength} characters accepted ` : errorMsg = ""
+    }
+     setErrors({...errors, [name]:errorMsg})
     
   };
 
@@ -63,17 +81,22 @@ const AddClient = (props) => {
         <div>
           {fields?.length ? fields?.map((item, i)=>  {
             let fieldObj = schema?.properties[item]
-            return <FormField key = {i} 
+            return <>
+            <FormField key = {i} 
             value={formState[fieldObj?.name]} 
             handleInputChange={handleInputChange} 
             fieldObj = {fieldObj} 
-            errorMsg = {errors[item]  }
+            errorMsg = {
+              errors[item]  
+            }
             />
-          } ) : <p> invalid scheam provided </p>}
-
+            </>
+          } ) : <p> invalid scheam provided </p>}    
+          <br />
           <button onClick={saveTutorial} className="btn btn-success">
             Submit
           </button>
+         
         </div>
       )}
     </div>

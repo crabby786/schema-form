@@ -17,7 +17,7 @@ export const registerSchema = {
         "inputType": inputTypes.textfield,
         "title": "Full name",
         "name": "fullName",
-        "default": "Chuck",
+        "default": "Vilas k",
         validations : {
             "required":true
         }
@@ -35,14 +35,14 @@ export const registerSchema = {
           // match : regex
         }
       },
-      "dob": {
-        "name": "dob",
-        "inputType": inputTypes.datepicker,
-        "title": "Date of Birth",
-        validations : {
-            // "max": new Date(),
-        }
-      },
+      // "dob": {
+      //   "name": "dob",
+      //   "inputType": inputTypes.datepicker,
+      //   "title": "Date of Birth",
+      //   validations : {
+      //       // "max": new Date(),
+      //   }
+      // },
       "gender": {
         "name": "gender",
         "inputType": inputTypes.radio,
@@ -56,8 +56,12 @@ export const registerSchema = {
         "name": "mobile",
         "inputType": inputTypes.textfield,
         "title": "Mobile",
+        "inputProps" : {
+          type:"number",  
+        },      
         validations : {
-          "minLength": 10
+          "minLength": 10,
+          "maxLength": 10,
         }
       },
       "email": {
@@ -65,7 +69,7 @@ export const registerSchema = {
         "inputType": inputTypes.textfield,
         "title": "Email",
         validations : {
-          "match": "email regex"
+          "match": /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i
         }
       }
     }
