@@ -10,8 +10,8 @@ export default function FormField(props) {
   // console.log("inputType props", props);
   return inputType == inputTypes.textfield ?  (
   <div className="form-group">
-    <label htmlFor="title">{label || ""}</label>
-    <input type={fieldObj?.inputProps?.type || "text"} 
+    <label htmlFor="title">{fieldObj?.title || ""}</label>
+    <input type={fieldObj?.inputType || "text"} 
     className="form-control" 
     // id="title" 
     required

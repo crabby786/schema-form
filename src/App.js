@@ -5,7 +5,7 @@ import "@fortawesome/fontawesome-free/css/all.css";
 import "@fortawesome/fontawesome-free/js/all.js";
 import "./App.css";
 
-import AddTutorial from "./components/AddTutorial";
+import AddClient from "./components/AddClient";
 import {registerSchema} from "./Utils/schema/register_client_schema";
 import Client from "./components/Client";
 import ClientList from "./components/ClientList";
@@ -34,8 +34,8 @@ function App() {
       <div className="container mt-3">
         <Switch>
           <Route exact path={["/", "/Clients"]} component={ClientList} />
-          <Route exact path="/add" render={(prop)=> <AddTutorial {...prop} schema = {registerSchema}  /> } />
-          <Route path="/client/:id" component={Client} />
+          <Route exact path="/add" render={(prop)=> <AddClient {...prop} schema = {registerSchema}  /> } />
+          <Route path="/client/:id" render={(prop)=> <Client {...prop} schema = {registerSchema}  /> } />
         </Switch>
       </div>
     </div>

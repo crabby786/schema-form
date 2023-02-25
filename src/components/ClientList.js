@@ -58,7 +58,7 @@ const TutorialsList = (props) => {
   const editClient = (rowIndex) => {
     const id = tutorialsRef.current[rowIndex]._id;
 
-    props.history.push("/clientList/" + id);
+    props.history.push("/client/" + id);
   };
 
   const deleteClient = (rowIndex) => {

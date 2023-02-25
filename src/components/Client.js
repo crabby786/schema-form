@@ -1,21 +1,35 @@
 import React, { useState, useEffect } from "react";
+import FormField from "./FormField";
 import ClientDataService from "../services/ClientService";
 
-const Tutorial = props => {
-  const initialTutorialState = {
-    id: null,
-    title: "",
-    description: "",
-    published: false
-  };
+const Client = props => {
+
+  let  initialTutorialState = {};
   const [currentClient, setCurrentClient] = useState(initialTutorialState);
   const [message, setMessage] = useState("");
+    console.log(initialTutorialState, 'initialTutorialState')
+  const { schema } = props
+  let fields = Object.keys(schema?.properties)
+
+  
+
+  for (const key in schema?.properties) {
+    initialTutorialState[key] = schema?.properties?.[key]?.default || ""
+  }
+
+  const [submitted, setSubmitted] = useState(false);
+  const [errors, setErrors] = useState({});
+
+  const handleValidation = (fieldObj) => {
+    let newErrors = {...errors}
+    
+  };
 
   const getClient = id => {
     ClientDataService.get(id)
       .then(response => {
         setCurrentClient(response.data.data);
-        console.log(response.data);
+        console.log(response.data.data);
       })
       .catch(e => {
         console.log(e);
@@ -50,11 +64,13 @@ const Tutorial = props => {
       });
   };
 
-  const updateTutorial = () => {
-    ClientDataService.update(currentClient.id, currentClient)
+  const updateClient = () => {
+    console.log(currentClient, 'currentClient', currentClient);
+    ClientDataService.update(currentClient._id, currentClient)
       .then(response => {
         console.log(response.data);
         setMessage("The client was updated successfully!");
+        props.history.push("/clients");
       })
       .catch(e => {
         console.log(e);
@@ -62,58 +78,34 @@ const Tutorial = props => {
   };
 
   const deleteTutorial = () => {
-    ClientDataService.remove(currentClient.id)
+    ClientDataService.remove(currentClient._id)
       .then(response => {
         console.log(response.data);
-        props.history.push("/tutorials");
+        props.history.push("/clients");
       })
       .catch(e => {
         console.log(e);
       });
   };
-
+  console.log(currentClient, 'currentClient')
   return (
-    <div>
+    <div className="submit-form">
       {currentClient ? (
-        <div className="edit-form">
-          <h4>Tutorial</h4>
-          <form>
-            <div className="form-group">
-              <label htmlFor="title">Title</label>
-              <input
-                type="text"
-                className="form-control"
-                id="title"
-                name="title"
-                value={currentClient.title}
-                onChange={handleInputChange}
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="description">Description</label>
-              <input
-                type="text"
-                className="form-control"
-                id="description"
-                name="description"
-                value={currentClient.description}
-                onChange={handleInputChange}
-              />
-            </div>
-          </form>
-          <button className="badge badge-danger mr-2" onClick={deleteTutorial}>
-            Delete
-          </button>
+        <div>
+        {fields?.length ? fields?.map((item, i)=>  {
+          let fieldObj = schema?.properties[item]
+          return <FormField key = {i} 
+          value={currentClient[fieldObj?.name]} 
+          handleInputChange={handleInputChange} 
+          fieldObj = {fieldObj} 
+          errorMsg = {errors[item]  }
+          />
+        } ) : <p> invalid scheam provided </p>}
 
-          <button
-            type="submit"
-            className="badge badge-success"
-            onClick={updateTutorial}
-          >
-            Update
-          </button>
-          <p>{message}</p>
-        </div>
+        <button onClick={updateClient} className="btn btn-success">
+          Update Client
+        </button>
+      </div>
       ) : (
         <div>
           <br />
@@ -124,4 +116,4 @@ const Tutorial = props => {
   );
 };
 
-export default Tutorial;
+export default Client;

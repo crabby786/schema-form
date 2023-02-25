@@ -1,13 +1,8 @@
 import React, { useState } from "react";
-import FormField from "../components/FormField";
+import FormField from "./FormField";
 import ClientDataService from "../services/ClientService";
-// import TutorialDataService from "../services/TutorialService";
 
-
-
-
-
-const AddTutorial = (props) => {
+const AddClient = (props) => {
   const { schema } = props
 
   const initialTutorialState = {}
@@ -39,14 +34,9 @@ const AddTutorial = (props) => {
 
     ClientDataService.create(data)
       .then(response => {
-        setTutorial({
-          id: response.data.id,
-          title: response.data.title,
-          description: response.data.description,
-          published: response.data.published
-        });
         setSubmitted(true);
         console.log(response.data);
+        props.history.push("/clients");
       })
       .catch(e => {
         console.log(e);
@@ -80,20 +70,6 @@ const AddTutorial = (props) => {
             errorMsg = {errors[item]  }
             />
           } ) : <p> invalid scheam provided </p>}
-          
-
-          {/* <div className="form-group">
-            <label htmlFor="description">Description</label>
-            <input
-              type="text"
-              className="form-control"
-              id="description"
-              required
-              value={tutorial.description}
-              onChange={handleInputChange}
-              name="description"
-            />
-          </div> */}
 
           <button onClick={saveTutorial} className="btn btn-success">
             Submit
@@ -104,4 +80,4 @@ const AddTutorial = (props) => {
   );
 };
 
-export default AddTutorial;
+export default AddClient;
